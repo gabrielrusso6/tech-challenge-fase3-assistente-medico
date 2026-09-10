@@ -2,6 +2,7 @@
 
 import json
 import sqlite3
+from contextlib import contextmanager
 from pathlib import Path
 
 
@@ -24,8 +25,15 @@ class Repository:
                 );
             """)
 
+    @contextmanager
     def connect(self):
-        return sqlite3.connect(self.path)
+        """Finaliza a transação e fecha a conexão, inclusive quando ocorre erro."""
+        db = sqlite3.connect(self.path)
+        try:
+            with db:
+                yield db
+        finally:
+            db.close()
 
     def seed(self, path: Path):
         patients = json.loads(path.read_text(encoding="utf-8"))

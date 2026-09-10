@@ -1,5 +1,6 @@
 """Testes executáveis com a biblioteca padrão, inclusive sem LangGraph instalado."""
 import json
+import sqlite3
 import tempfile
 import unittest
 from pathlib import Path
@@ -20,6 +21,21 @@ class StorageTests(unittest.TestCase):
     def test_patient_isolation(self):
         self.assertEqual(self.repo.patient("SYN-001")["id"], "SYN-001")
         self.assertEqual(self.repo.patient("SYN-002")["id"], "SYN-002")
+
+    def test_connection_closed_after_success(self):
+        with self.repo.connect() as db:
+            db.execute("SELECT 1")
+        with self.assertRaises(sqlite3.ProgrammingError):
+            db.execute("SELECT 1")
+
+    def test_connection_closed_and_rolled_back_after_error(self):
+        with self.assertRaisesRegex(ValueError, "simulated failure"):
+            with self.repo.connect() as db:
+                db.execute("INSERT INTO patients VALUES (?, ?)", ("ROLLBACK", "{}"))
+                raise ValueError("simulated failure")
+        with self.assertRaises(sqlite3.ProgrammingError):
+            db.execute("SELECT 1")
+        self.assertIsNone(self.repo.patient("ROLLBACK"))
 
     def test_sql_injection_does_not_return_patient(self):
         self.assertIsNone(self.repo.patient("' OR 1=1 --"))
