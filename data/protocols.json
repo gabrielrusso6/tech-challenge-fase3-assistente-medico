@@ -1,0 +1,6 @@
+[
+  {"id":"SIM-SEG-001", "version":"0.1", "kind":"synthetic", "title":"Limites do assistente", "text":"Este ambiente é uma simulação acadêmica. O assistente não confirma diagnósticos, não prescreve e não executa tratamentos. Toda sugestão exige revisão humana."},
+  {"id":"SIM-PEND-001", "version":"0.1", "kind":"synthetic", "title":"Pendências do registro", "text":"Exames marcados como pendentes no registro devem ser apresentados ao revisor. Não inferir resultado de exame pendente nem solicitar exames automaticamente."},
+  {"id":"SIM-DADOS-001", "version":"0.1", "kind":"synthetic", "title":"Informação ausente", "text":"Quando o registro não contém a informação solicitada, declarar a ausência. Ausência de registro não significa ausência de doença ou de risco."},
+  {"id":"SIM-REV-001", "version":"0.1", "kind":"synthetic", "title":"Revisão de registros", "text":"O fluxo pode preparar uma tarefa de revisão dos registros para decisão humana. Aprovar essa tarefa registra apenas uma decisão administrativa simulada; não autoriza conduta clínica."}
+]

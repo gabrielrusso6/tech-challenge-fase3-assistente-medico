@@ -1,0 +1,32 @@
+{
+  "records": 12,
+  "splits": {
+    "train": 6,
+    "validation": 3,
+    "test": 3
+  },
+  "categories": {
+    "limites": 4,
+    "pendencias": 3,
+    "ausencia": 3,
+    "revisao": 2
+  },
+  "unique_groups": 12,
+  "sources": {
+    "SIM-SEG-001": 4,
+    "SIM-PEND-001": 3,
+    "SIM-DADOS-001": 3,
+    "SIM-REV-001": 2
+  },
+  "words": {
+    "min": 16,
+    "median": 21.5,
+    "max": 24
+  },
+  "limitations": [
+    "Amostra inicial pequena; não demonstra qualidade clínica.",
+    "Contagem de palavras não equivale a tokens do modelo.",
+    "Sem revisão médica; protocolos sintéticos administrativos.",
+    "Sem análise semântica de duplicação nesta versão."
+  ]
+}

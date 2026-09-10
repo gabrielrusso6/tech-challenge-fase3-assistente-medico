@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tc3-assistente-medico"
+version = "0.1.0"
+description = "Protótipo acadêmico de apoio à revisão de casos de mama"
+requires-python = ">=3.11,<3.14"
+dependencies = ["langchain-core==1.6.2", "langgraph==1.2.11", "langchain-ollama==1.1.0", "pydantic>=2.7,<3"]
+
+[project.scripts]
+tc3 = "tc3.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100

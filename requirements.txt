@@ -1,0 +1,6 @@
+# Pins diretos consultados no PyPI em 10/09/2026.
+# Resolução completa de dependências ainda precisa ser validada.
+langchain-core==1.6.2
+langgraph==1.2.11
+langchain-ollama==1.1.0
+pydantic>=2.7,<3

@@ -1,0 +1,5 @@
+[
+  {"id":"SYN-001", "synthetic":true, "record_version":1, "age":48, "context":"Caso fictício para demonstração de pendências na avaliação de mama.", "exams":[{"name":"Laudo de avaliação", "status":"pending", "result":null}]},
+  {"id":"SYN-002", "synthetic":true, "record_version":1, "age":57, "context":"Caso fictício com registro disponível para revisão.", "exams":[{"name":"Laudo de avaliação", "status":"available", "result":"Documento fictício disponível; conteúdo clínico não incluído nesta base."}]},
+  {"id":"SYN-003", "synthetic":true, "record_version":1, "age":null, "context":"Caso fictício com informações incompletas.", "exams":[]}
+]
