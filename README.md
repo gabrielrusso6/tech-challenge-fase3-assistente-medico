@@ -1,6 +1,10 @@
 # Tech Challenge Fase 3 — Assistente de apoio à revisão de casos de mama
 
-**Versão 0.1.0: base inicial, NÃO é a entrega final.**
+**Versão 0.2.0: preparação de fine-tuning, ainda NÃO é a entrega final.**
+
+**Atualização de 14/09:** consulte [estado atual](docs/STATUS.md),
+[guia de treinamento](docs/TRAINING.md) e [corpus v2](docs/DATA_CARD_V2.md).
+O restante deste README descreve também a demonstração original.
 
 Projeto individual de Gabriel Augusto Russo, com continuidade temática das fases 1 e 2.
 O objetivo final é integrar uma LLM ajustada com dados curados a um assistente contextualizado
@@ -15,10 +19,10 @@ com LangChain e LangGraph. Esta versão prepara a infraestrutura e a verificaç�
 - O runtime inicial extrai evidências e prepara revisão administrativa. Ainda não responde
   livremente a perguntas clínicas nem sugere tratamentos. Toda pergunta válida usa esse
   fluxo estreito nesta versão, inclusive perguntas fora do escopo.
-- Dataset seed e curadoria inicial existem; **não há treinamento, adaptador nem métricas de LLM**.
-- Testes de SQLite e curadoria executados neste ambiente. Instalação das dependências de
-  LangGraph/pytest foi interrompida por autorização de rede; grafo, Ollama, Docker e CI
-  ainda não foram executados. Veja [verificação](docs/VERIFICATION.md).
+- Corpus v2 e scripts de treinamento existem; **treinamento médico não executado, sem adaptador ou métricas preenchidas**.
+- A base passou no CI e na máquina Windows do usuário. O incremento atual tem testes adicionais;
+  consulte Actions para a execução correspondente. Ollama, modelo médico ajustado e Docker ainda
+  precisam de validação. [Verificação histórica](docs/VERIFICATION.md).
 
 ## Estrutura
 
@@ -37,7 +41,7 @@ com LangChain e LangGraph. Esta versão prepara a infraestrutura e a verificaç�
 ## Instalação prevista para ambiente com internet
 
 Execute a partir da raiz extraída do projeto. Alvos: Python 3.11 ou 3.12 em macOS,
-Linux ou Windows. Compatibilidade ainda será confirmada pelo CI; não há mínimo de
+Linux ou Windows. A base passou no CI em Python 3.11/3.12 nos três sistemas; não há mínimo de
 memória de inferência validado. A fixture não precisa de GPU nem de Ollama.
 
 ```bash
@@ -77,9 +81,8 @@ tc3 --mode ollama --model NOME_DO_MODELO_INSTALADO --patient SYN-001
 
 Substitua o nome pelo exibido em `ollama list`. Nenhum modelo é baixado automaticamente.
 É possível usar `OLLAMA_MODEL` e `OLLAMA_BASE_URL`; `.env.example` documenta as variáveis,
-mas não é carregado automaticamente. O modelo ajustado e sua distribuição serão definidos
-após o piloto no Mac M4 24 GB. Ollama é uma opção de inferência; o backend definitivo pode
-mudar conforme o formato do adaptador. Não há caminho de exportação já validado.
+mas não é carregado automaticamente. O treinamento usa PEFT/Transformers e o adaptador será carregado com --mode local.
+Ollama permanece uma integração independente; não há conversão do adaptador para Ollama validada.
 
 Saída inválida, fonte inventada ou falha do modelo bloqueiam o fluxo; não há fallback
 disfarçado de resposta da LLM. A seleção de citações exatas é conservadora e pode causar
@@ -94,8 +97,9 @@ python -m tc3.dataset
 ```
 
 Gera `runtime/dataset/{train,validation,test}.jsonl` e `analysis.json`.
-Os 12 FAQs são seed de formato, não dataset suficiente de fine-tuning. Leia o
-[data card](docs/DATA_CARD.md) antes de ampliar ou treinar.
+Os 12 FAQs são o seed histórico. Para o corpus alinhado de 166 exemplos, execute
+`python -m tc3.corpus`; depois `python -m tc3.train --dry-run`.
+Leia o [data card v2](docs/DATA_CARD_V2.md) antes de treinar.
 
 Sem instalar nada, é possível executar os módulos de dados e os testes básicos:
 
@@ -128,8 +132,7 @@ somente o gerador. A suíte inclui SQL injection, isolamento entre pacientes, du
 vazamento de grupos, falha do modelo, citação inventada, saída proibida e aprovação/rejeição.
 
 O workflow executa testes e publica XML de resultados, análise do dataset e wheel do código
-em push/PR. Só estará ativo depois da publicação em GitHub. Não foi criado um repositório
-remoto nesta etapa. O wheel não embute os dados; para demonstração use o checkout/ZIP completo.
+em push/PR e está ativo no repositório público. O wheel não embute os dados; para demonstração use o checkout/ZIP completo.
 Não há CD para servidor: não existe destino de deployment definido. O CI empacota o software.
 
 ## Docker — configuração ainda não testada

@@ -13,22 +13,25 @@ from tc3.workflow import build_graph
 
 def main():
     parser = argparse.ArgumentParser(description="TC3 — simulação acadêmica; sem uso clínico")
-    parser.add_argument("--mode", choices=["fixture", "ollama"], required=True)
+    parser.add_argument("--mode", choices=["fixture", "ollama", "local"], required=True)
     parser.add_argument("--model", default=os.getenv("OLLAMA_MODEL"))
     parser.add_argument("--data-dir", type=Path, default=Path("data"))
     parser.add_argument("--db", type=Path, default=Path("runtime/demo.sqlite"))
     parser.add_argument("--patient", default="SYN-001")
     parser.add_argument("--question", default="Quais registros estão pendentes para revisão?")
     parser.add_argument("--reviewer", default="avaliador-demo")
+    parser.add_argument("--adapter", help="Diretório do adaptador PEFT treinado")
+    parser.add_argument("--device", choices=["auto", "cpu", "mps", "cuda"], default="auto")
     args = parser.parse_args()
     try:
-        chain = make_chain(args.mode, args.model, os.getenv("OLLAMA_BASE_URL"))
+        chain = make_chain(args.mode, args.model, os.getenv("OLLAMA_BASE_URL"),
+                           adapter=args.adapter, device=args.device)
         repo = Repository(args.db)
         repo.seed(args.data_dir / "patients.json")
         protocols = json.loads((args.data_dir / "protocols.json").read_text(encoding="utf-8"))
     except (ValueError, OSError) as exc:
         parser.error(str(exc))
-    backend = args.mode if args.mode == "fixture" else f"ollama:{args.model}"
+    backend = args.mode if args.mode == "fixture" else f"{args.mode}:{args.model}:adapter={args.adapter or 'none'}"
     print(f"Modo: {backend}. Fixture NÃO usa LLM; Ollama NÃO implica fine-tuning.")
     graph = build_graph(repo, protocols, chain, backend)
     run_id = str(uuid4())

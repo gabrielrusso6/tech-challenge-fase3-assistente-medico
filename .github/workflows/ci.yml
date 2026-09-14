@@ -28,6 +28,10 @@ jobs:
         run: python -m pytest -v --junitxml=runtime/junit.xml
       - name: Dataset pipeline
         run: python -m tc3.dataset
+      - name: Aligned corpus and training preflight
+        run: |
+          python -m tc3.corpus
+          python -m tc3.train --dry-run
       - name: Package wheel
         run: python -m pip wheel . --no-deps --wheel-dir dist
       - name: Upload evidence
@@ -38,4 +42,30 @@ jobs:
           path: |
             runtime/junit.xml
             runtime/dataset/analysis.json
+            runtime/corpus/manifest.json
             dist/*.whl
+
+  training-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install CPU training extras
+        run: |
+          python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r requirements-training.txt -r requirements-dev.txt
+          python -m pip install -e . --no-deps
+          python -m pip check
+      - name: Offline real LoRA update and adapter reload
+        env:
+          HF_HUB_OFFLINE: '1'
+        run: python -m pytest tests/test_training_smoke.py -v --junitxml=runtime/training-smoke.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: training-smoke-evidence
+          path: runtime/training-smoke.xml

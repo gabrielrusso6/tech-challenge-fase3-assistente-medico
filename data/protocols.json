@@ -1,6 +1,59 @@
 [
-  {"id":"SIM-SEG-001", "version":"0.1", "kind":"synthetic", "title":"Limites do assistente", "text":"Este ambiente é uma simulação acadêmica. O assistente não confirma diagnósticos, não prescreve e não executa tratamentos. Toda sugestão exige revisão humana."},
-  {"id":"SIM-PEND-001", "version":"0.1", "kind":"synthetic", "title":"Pendências do registro", "text":"Exames marcados como pendentes no registro devem ser apresentados ao revisor. Não inferir resultado de exame pendente nem solicitar exames automaticamente."},
-  {"id":"SIM-DADOS-001", "version":"0.1", "kind":"synthetic", "title":"Informação ausente", "text":"Quando o registro não contém a informação solicitada, declarar a ausência. Ausência de registro não significa ausência de doença ou de risco."},
-  {"id":"SIM-REV-001", "version":"0.1", "kind":"synthetic", "title":"Revisão de registros", "text":"O fluxo pode preparar uma tarefa de revisão dos registros para decisão humana. Aprovar essa tarefa registra apenas uma decisão administrativa simulada; não autoriza conduta clínica."}
+  {
+    "id": "SIM-SEG-001",
+    "version": "0.1",
+    "kind": "synthetic",
+    "title": "Limites do assistente",
+    "text": "Este ambiente é uma simulação acadêmica. O assistente não confirma diagnósticos, não prescreve e não executa tratamentos. Toda sugestão exige revisão humana."
+  },
+  {
+    "id": "SIM-PEND-001",
+    "version": "0.1",
+    "kind": "synthetic",
+    "title": "Pendências do registro",
+    "text": "Exames marcados como pendentes no registro devem ser apresentados ao revisor. Não inferir resultado de exame pendente nem solicitar exames automaticamente."
+  },
+  {
+    "id": "SIM-DADOS-001",
+    "version": "0.1",
+    "kind": "synthetic",
+    "title": "Informação ausente",
+    "text": "Quando o registro não contém a informação solicitada, declarar a ausência. Ausência de registro não significa ausência de doença ou de risco."
+  },
+  {
+    "id": "SIM-REV-001",
+    "version": "0.1",
+    "kind": "synthetic",
+    "title": "Revisão de registros",
+    "text": "O fluxo pode preparar uma tarefa de revisão dos registros para decisão humana. Aprovar essa tarefa registra apenas uma decisão administrativa simulada; não autoriza conduta clínica."
+  },
+  {
+    "id": "SIM-LAUDO-001",
+    "version": "0.2",
+    "kind": "synthetic",
+    "title": "Modelo de laudo para revisão",
+    "text": "Modelo fictício de laudo: identificador do caso; exame; data; material; achados transcritos da fonte; informações ausentes; profissional revisor. Não preencher achados nem conclusão sem documento de origem."
+  },
+  {
+    "id": "SIM-RECEITA-001",
+    "version": "0.2",
+    "kind": "synthetic",
+    "title": "Modelo de receita não emitível",
+    "text": "Modelo acadêmico não válido como receita: identificação do caso; campos de medicamento, dose, via e duração reservados ao prescritor; revisão e assinatura profissional. O assistente não preenche esses campos nem emite prescrição."
+  },
+  {
+    "id": "SIM-PROC-001",
+    "version": "0.2",
+    "kind": "synthetic",
+    "title": "Procedimento administrativo de revisão",
+    "text": "Conferir identificação do caso, listar registros e pendências, apresentar evidências com fontes e encaminhar a tarefa ao revisor. Aprovação ou rejeição é registrada na auditoria. Nenhuma conduta clínica é executada."
+  },
+  {
+    "id": "REF-NCI-001",
+    "version": "2026-09-14",
+    "kind": "educational_summary",
+    "title": "Biópsia: referência educativa NCI",
+    "url": "https://www.cancer.gov/types/breast/diagnosis",
+    "text": "Na biópsia, células ou tecido são examinados por um patologista. Referência educativa NCI; exige interpretação profissional."
+  }
 ]

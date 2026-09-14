@@ -1,0 +1,6 @@
+# Extras separados: não são necessários para fixture nem preparação do corpus.
+-r requirements.txt
+torch==2.8.0
+transformers==4.56.2
+peft==0.17.1
+accelerate==1.10.1

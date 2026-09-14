@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tc3-assistente-medico"
-version = "0.1.0"
+version = "0.2.0"
 description = "Protótipo acadêmico de apoio à revisão de casos de mama"
 requires-python = ">=3.11,<3.14"
 dependencies = ["langchain-core==1.6.2", "langgraph==1.2.11", "langchain-ollama==1.1.0", "pydantic>=2.7,<3"]
